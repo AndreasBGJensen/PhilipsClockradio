@@ -20,12 +20,18 @@ public class StateRadio extends StateAdapter {
 
     @Override
     public void onClick_Hour(ContextClockradio context) {
-
+        System.out.println("Manuel channel scanning");
     }
 
     @Override
     public void onLongClick_Power(ContextClockradio context) {
         context.setState(new StateStandby(context.getTime()));
+    }
+
+
+    @Override
+    public void onLongClick_Hour(ContextClockradio context) {
+        System.out.println("Finding the radio station with the strongest reception");
     }
 
 
