@@ -10,7 +10,7 @@ public class StateStandby extends StateAdapter {
     private ContextClockradio mContext;
 
     StateStandby(Date time){
-        mTime = time;
+        this.mTime = time;
     }
 
     //Opdaterer hvert 60. sekund med + 1 min til tiden
@@ -55,4 +55,8 @@ public class StateStandby extends StateAdapter {
         context.setState(new StateSetTime());
     }
 
+    @Override
+    public void onClick_Power(ContextClockradio context) {
+        context.setState(new StateRadio());
+    }
 }

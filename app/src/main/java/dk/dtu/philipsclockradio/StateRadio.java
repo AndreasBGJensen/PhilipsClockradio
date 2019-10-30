@@ -1,7 +1,7 @@
 package dk.dtu.philipsclockradio;
 
 public class StateRadio extends StateAdapter {
-    public static String radioType = "AM";
+    private static String radioType = "AM";
 
 
     StateRadio(){}
@@ -9,7 +9,13 @@ public class StateRadio extends StateAdapter {
 
     @Override
     public void onEnterState(ContextClockradio context) {
-        context.setState(new StateRadio());
+
+            System.out.println(radioMode());
+    }
+
+    @Override
+    public void onClick_Power(ContextClockradio context) {
+        this.onEnterState(context);
     }
 
     @Override
@@ -19,6 +25,27 @@ public class StateRadio extends StateAdapter {
 
     @Override
     public void onLongClick_Power(ContextClockradio context) {
-        context.setState(context.setState(new StateStandby(context.getTime())));
+        context.setState(new StateStandby(context.getTime()));
+    }
+
+
+    private String radioMode(){
+        String mode;
+        if(getRadioType().equals("AM")){
+            mode="FM";
+            setRadioType(mode);
+        }else{
+            mode="AM";
+            setRadioType(mode);
+        }
+        return mode;
+    }
+
+    private String getRadioType(){
+        return radioType;
+    }
+
+    private void setRadioType(String mode){
+        radioType=mode;
     }
 }
