@@ -1,11 +1,16 @@
 package dk.dtu.philipsclockradio;
 
+import android.content.Intent;
+
 public class StateRadio extends StateAdapter {
-    private static String radioType = "AM";
-private static int FMstations =0;
-    private static int AMstations =0;
-    private static int storedFrequency = 0;
-    private int frequencyCount = 0;
+    static StateAM AM = new StateAM();
+    static StateFM FM = new StateFM();
+    static StateRadio radioMode = AM;
+    static StatePreset preset = new StatePreset();
+
+PresetRadioStations radioStations = new PresetRadioStations();
+
+
 
     StateRadio(){}
 
@@ -13,25 +18,57 @@ private static int FMstations =0;
     @Override
     public void onEnterState(ContextClockradio context) {
 
-            System.out.println(radioMode());
+
     }
 
     @Override
     public void onClick_Power(ContextClockradio context) {
-        this.onEnterState(context);
+        radioMode();
+        context.setState(radioMode);
     }
+
+
 
     @Override
     public void onClick_Hour(ContextClockradio context) {
-        frequencyCount++;
-        System.out.println("Manuel channel scanning");//No garantee that you will find a radio station
+        scanAddToFrequency(-1);
+        printFrequency();
+        findRadioStation();
     }
 
     @Override
     public void onClick_Min(ContextClockradio context) {
-        frequencyCount--;
-        System.out.println("Manuel channel scanning");//No garantee that you will find a radio station
+        scanAddToFrequency(1);
+        printFrequency();
+        findRadioStation();
     }
+
+
+    /*
+    Jeg holder logikken i parentclass da jeg ikke har lavet forskel på klasserne FM og AM.
+    Hvis der var forskel på disse ville jeg flytte logikken ned i en af disse klasser.
+     */
+    @Override
+    public void onLongClick_Hour(ContextClockradio context) {
+        for(int i = 0; i<50;i++){
+            findRadioStation();
+            if(findRadioStation()){
+               listen();
+            break;}
+        }
+    }
+    public boolean findRadioStation(){
+        if(radioStations.getRadioStations().containsKey(radioMode.getFrequency())){
+            System.out.println("Kanal fundet:");
+            listen();
+            return true;
+        }else{
+            System.out.println("Ingen kanal");
+            return false;
+        }
+
+    }
+
 
     @Override
     public void onLongClick_Power(ContextClockradio context) {
@@ -40,55 +77,46 @@ private static int FMstations =0;
 
 
     @Override
-    public void onLongClick_Hour(ContextClockradio context) {
-        nextFrequency();
+    public void onLongClick_Preset(ContextClockradio context) { context.setState(preset);}
+
+  private void radioMode(){
+
+        if(radioMode instanceof StateAM){
+            radioMode= FM;
+
+        }else{
+            radioMode= AM;
+        }
     }
 
     @Override
-    public void onLongClick_Preset(ContextClockradio context) {
+    public void onLongClick_Sleep(ContextClockradio context) { }
 
+    public Integer getFrequency(){return radioMode.getFrequency();}
+
+    public void setFrequency(Integer value){ }
+
+    public void storeRadioStation(String station){ }
+
+    public void printStation(){ }
+
+    public void scanAddToFrequency(Integer i){
+        Integer currentFrequency = radioMode.getFrequency();
+        currentFrequency = currentFrequency+i;
+        radioMode.setFrequency(currentFrequency);
+    }
+
+    private void listen(){
+        System.out.println(radioStations.getRadioStations().get(radioMode.getFrequency()));
 
     }
 
-    @Override
-    public void onClick_Preset(ContextClockradio context) {
-        setStoredFrequency();
-        System.out.println("You have stored the frequency: "+storedFrequency);
+    public StateRadio getRadioMode(){
+        return radioMode;
     }
 
-    private String radioMode(){
-        String mode;
-        if(getRadioType().equals("AM")){
-            mode="FM";
-            setRadioType(mode);
-        }else{
-            mode="AM";
-            setRadioType(mode);
-        }
-        return mode;
-    }
+    public String getName(){return null;}
 
-    private String getRadioType(){
-        return radioType;
-    }
-
-    private void setRadioType(String mode){
-        radioType=mode;
-    }
-
-    private void nextFrequency(){
-        if(getRadioType().equals("AM")){
-            AMstations++;
-        }else{
-            FMstations++;
-        }
-        System.out.println("Finding the radio station with the strongest reception");
-    }
-
-    private void setStoredFrequency(){
-        storedFrequency=frequencyCount;
-
-    }
-
+    public void printFrequency(){}
 
 }
