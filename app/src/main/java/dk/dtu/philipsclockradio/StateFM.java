@@ -4,36 +4,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-public class StateFM extends StateAdapter {
+public class StateFM extends StateRadio {
     private static ArrayList<String> stations = new ArrayList<>();
     private static Double FMfrequency = new Double(87.5);
     private String name = "FM";
-
-
+    StatePreset preset = new StatePreset(this);
+    int presetCounter =0;
 
 /*
 TUNING RANGE:87.5-108
 */
-
 
     StateFM(){}
 
     @Override
     public void onEnterState(ContextClockradio context) {
         context.ui.setDisplayText(FMfrequency.toString());
-
     }
 
     @Override
     public void onClick_Min(ContextClockradio context) {
         incrementFrequency(context);
-
     }
 
     @Override
     public void onClick_Hour(ContextClockradio context) {
         decrementFrequency(context);
-
     }
 
 
@@ -63,64 +59,44 @@ TUNING RANGE:87.5-108
         context.setState(new StateStandby(context.getTime()));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    @Override
-    public void onClick_Preset(ContextClockradio context) {
-        presetCount++;
-        context.ui.setDisplayText(preset.presetFrequence.get(presetCount).toString());
-    }
-
     @Override
     public void onLongClick_Preset(ContextClockradio context) {
         context.setState(this.preset);
     }
-*/
-   /* @Override
-    public void onLongClick_Sleep(ContextClockradio context) {
-        Iterator it = radioStations.getRadioStations().entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            stations.add((String)pair.getValue());
-            this.preset.presetFrequence.add((Integer)pair.getKey());
 
-        }
-    }
-*/
-    public ArrayList getStations(){
-        return stations;
+    @Override
+    public void onClick_Preset(ContextClockradio context) {
+        context.ui.turnOffTextBlink();
+
+        context.ui.setDisplayText(showPreset(presetCounter).toString());
+        presetCounter++;
     }
 
+    @Override
+    public Double getFrequency () {
+        return FMfrequency;
+    }
 
-
-
-
+    private Double showPreset(int i){
+        int size = preset.getFrequencyArray().size();
+        return preset.getFrequencyArray().get(i%size);
+    }
 
     public void decrementFrequency(ContextClockradio context){
         FMfrequency-=0.1;
+        if(FMfrequency<87.5){
+            FMfrequency=108.0;
+        }
         context.ui.setDisplayText(FMfrequency.toString());
 
     }
 
     public void incrementFrequency(ContextClockradio context){
         FMfrequency+=0.1;
+        if(FMfrequency>=108.0){
+            FMfrequency=87.5;
+        }
         context.ui.setDisplayText(FMfrequency.toString());
 
     }
-
-
 }

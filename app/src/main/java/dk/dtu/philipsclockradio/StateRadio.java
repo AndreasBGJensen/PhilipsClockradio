@@ -15,7 +15,14 @@ public class StateRadio extends StateAdapter {
     @Override
     public void onEnterState(ContextClockradio context) {
         context.setState(AM);
+
     }
+
+
+    public Double getFrequency(){return null;}
+
+
+
 }
 
 
