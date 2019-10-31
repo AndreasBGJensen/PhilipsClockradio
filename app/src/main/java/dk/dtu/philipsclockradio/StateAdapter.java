@@ -1,5 +1,10 @@
 package dk.dtu.philipsclockradio;
 
+
+/*
+Spørgsmål: Hvorfor anvendes der denne adapter classe. Man kunne vel bare have an
+ */
+
 public class StateAdapter implements State {
     @Override
     public void onEnterState(ContextClockradio context) {

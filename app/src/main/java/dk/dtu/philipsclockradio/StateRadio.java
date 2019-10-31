@@ -5,50 +5,99 @@ import android.content.Intent;
 public class StateRadio extends StateAdapter {
     static StateAM AM = new StateAM();
     static StateFM FM = new StateFM();
-    static StateRadio radioMode = AM;
-    static StatePreset preset = new StatePreset();
 
-PresetRadioStations radioStations = new PresetRadioStations();
+    PresetRadioStations radioStations = new PresetRadioStations();
 
-
-
-    StateRadio(){}
+    StateRadio() {
+    }
 
 
     @Override
     public void onEnterState(ContextClockradio context) {
+        context.setState(AM);
+    }
+}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    @Override
+    public void onEnterState(ContextClockradio context) {
+        System.out.println("radioMode is: ");
+        context.setState(radioMode);
     }
 
     @Override
     public void onClick_Power(ContextClockradio context) {
-        radioMode();
+        //Changes the Tuning range AM/FM
+
         context.setState(radioMode);
     }
-
-
 
     @Override
     public void onClick_Hour(ContextClockradio context) {
         scanAddToFrequency(-1);
         printFrequency();
         findRadioStation();
+        updateDisplay(context);
     }
+}
 
-    @Override
+
     public void onClick_Min(ContextClockradio context) {
         scanAddToFrequency(1);
         printFrequency();
         findRadioStation();
+        updateDisplay(context);
     }
 
 
-    /*
     Jeg holder logikken i parentclass da jeg ikke har lavet forskel på klasserne FM og AM.
     Hvis der var forskel på disse ville jeg flytte logikken ned i en af disse klasser.
-     */
-    @Override
+
+   @Override
     public void onLongClick_Hour(ContextClockradio context) {
         for(int i = 0; i<50;i++){
             findRadioStation();
@@ -57,17 +106,7 @@ PresetRadioStations radioStations = new PresetRadioStations();
             break;}
         }
     }
-    public boolean findRadioStation(){
-        if(radioStations.getRadioStations().containsKey(radioMode.getFrequency())){
-            System.out.println("Kanal fundet:");
-            listen();
-            return true;
-        }else{
-            System.out.println("Ingen kanal");
-            return false;
-        }
 
-    }
 
 
     @Override
@@ -76,8 +115,6 @@ PresetRadioStations radioStations = new PresetRadioStations();
     }
 
 
-    @Override
-    public void onLongClick_Preset(ContextClockradio context) { context.setState(preset);}
 
   private void radioMode(){
 
@@ -90,7 +127,13 @@ PresetRadioStations radioStations = new PresetRadioStations();
     }
 
     @Override
-    public void onLongClick_Sleep(ContextClockradio context) { }
+    public void onLongClick_Preset(ContextClockradio context) {}
+
+    @Override
+    public void onLongClick_Sleep(ContextClockradio context) {}
+
+    @Override
+    public void onClick_Preset(ContextClockradio context) {}
 
     public Integer getFrequency(){return radioMode.getFrequency();}
 
@@ -98,7 +141,7 @@ PresetRadioStations radioStations = new PresetRadioStations();
 
     public void storeRadioStation(String station){ }
 
-    public void printStation(){ }
+    //public void printStation(){ }
 
     public void scanAddToFrequency(Integer i){
         Integer currentFrequency = radioMode.getFrequency();
@@ -119,4 +162,10 @@ PresetRadioStations radioStations = new PresetRadioStations();
 
     public void printFrequency(){}
 
+    public void updateDisplay(ContextClockradio context){
+        context.ui.setDisplayText(getRadioMode().getFrequency().toString());
+    }
+
+
 }
+*/
