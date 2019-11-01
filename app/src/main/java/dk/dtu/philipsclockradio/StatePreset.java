@@ -8,7 +8,7 @@ public class StatePreset extends StateRadio {
     static String tag;
     int counter = 0;
 
-
+//Not implementet yet. Holds predefined radio channels.
     static PresetRadioStations presetStations = new PresetRadioStations();
 
     ArrayList<java.lang.Object> prefered;
