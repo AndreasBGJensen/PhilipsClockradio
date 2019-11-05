@@ -1,0 +1,75 @@
+package dk.dtu.philipsclockradio;
+
+import android.os.AsyncTask;
+import android.os.SystemClock;
+
+/*
+This class make use of the singleton pattern.
+ */
+
+public class SleepSet {
+
+    static SleepSet sleep = null;
+    static ContextClockradio context;
+    private static int timer;
+    private static AsyncTask1 asynC;
+
+    private SleepSet(){}
+
+
+
+
+    public static SleepSet getInstance(int sleeptime,ContextClockradio con ){
+        System.out.println("GET INSTANCE");
+        if(sleep==null){
+            sleep = new SleepSet();
+            timer = sleeptime;
+            context = con;
+            asynC = new AsyncTask1();
+
+            asynC.execute();
+            turnOnSleep(context);
+
+            return sleep;
+        }
+        asynC = new AsyncTask1();
+        timer = sleeptime;
+        return sleep;
+    }
+
+
+    private static void turnOnSleep(ContextClockradio context){
+        if(timer!=0) {
+
+            context.ui.turnOnLED(3);
+        }else{
+            context.ui.turnOffLED(3);
+        }
+
+    }
+
+    static class AsyncTask1 extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            while (timer != 0) {
+                timer--;
+                System.out.println(timer);
+                try {
+                    Thread.sleep(1000);
+                }catch(Exception e){
+                    e.getMessage();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            context.ui.turnOffLED(3);
+            context.setState(new StateStandby(context.getTime()));
+        }
+    }
+
+
+
+}
