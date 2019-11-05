@@ -1,6 +1,7 @@
-package dk.dtu.philipsclockradio;
+package dk.dtu.philipsclockradio.Radio_StatePattern;
 
-import android.content.Intent;
+import dk.dtu.philipsclockradio.ContextClockradio;
+import dk.dtu.philipsclockradio.StateAdapter;
 
 public class StateRadio extends StateAdapter {
     static StateAM AM = new StateAM();
@@ -8,7 +9,7 @@ public class StateRadio extends StateAdapter {
 
     PresetRadioStations radioStations = new PresetRadioStations();
 
-    StateRadio() {
+    public StateRadio() {
     }
 
 

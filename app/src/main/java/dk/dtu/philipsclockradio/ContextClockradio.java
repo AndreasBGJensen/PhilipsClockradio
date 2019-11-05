@@ -28,7 +28,7 @@ public class ContextClockradio {
     }
 
     //setState er når vi skifter State
-    void setState(final State newState) {
+    public void setState(final State newState) {
         currentState.onExitState(this);
         currentState = newState;
         currentState.onEnterState(this);

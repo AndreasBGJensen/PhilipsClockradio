@@ -1,6 +1,9 @@
-package dk.dtu.philipsclockradio;
+package dk.dtu.philipsclockradio.SleepFunction.sleep_Singleton;
 
 import android.os.AsyncTask;
+
+import dk.dtu.philipsclockradio.ContextClockradio;
+import dk.dtu.philipsclockradio.StateStandby;
 
 public class SleepIdle {
 

@@ -1,6 +1,11 @@
-package dk.dtu.philipsclockradio;
+package dk.dtu.philipsclockradio.Radio_StatePattern;
 
 import java.util.HashMap;
+
+/*
+This class is a substitute for radiochannels
+ */
+
 
 public class PresetRadioStations {
     static HashMap<Integer, String > AMStations = new HashMap<>();

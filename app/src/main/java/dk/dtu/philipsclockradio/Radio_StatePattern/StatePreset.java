@@ -1,6 +1,8 @@
-package dk.dtu.philipsclockradio;
+package dk.dtu.philipsclockradio.Radio_StatePattern;
 
 import java.util.ArrayList;
+
+import dk.dtu.philipsclockradio.ContextClockradio;
 
 public class StatePreset extends StateRadio {
     static ArrayList<Double> Frequency = new ArrayList<>();
@@ -18,10 +20,11 @@ public class StatePreset extends StateRadio {
     StatePreset(StateRadio FM) {
 
         freq = FM;
-
-        frequency = freq.getFrequency();
-        Frequency.add(102.2);
-        Frequency.add(88.8);
+if(freq instanceof StateFM) {
+    frequency = freq.getFrequency();
+    Frequency.add(102.2);
+    Frequency.add(88.8);
+}
     }
 
     @Override

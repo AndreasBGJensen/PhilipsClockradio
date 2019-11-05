@@ -3,13 +3,16 @@ package dk.dtu.philipsclockradio;
 import android.os.Handler;
 import java.util.Date;
 
+import dk.dtu.philipsclockradio.Radio_StatePattern.StateRadio;
+import dk.dtu.philipsclockradio.SleepFunction.StateSleep;
+
 public class StateStandby extends StateAdapter {
 
     private Date mTime;
     private static Handler mHandler = new Handler();
     private ContextClockradio mContext;
 
-    StateStandby(Date time){
+    public StateStandby(Date time){
         this.mTime = time;
     }
 

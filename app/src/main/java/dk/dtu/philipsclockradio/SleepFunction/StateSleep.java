@@ -1,4 +1,9 @@
-package dk.dtu.philipsclockradio;
+package dk.dtu.philipsclockradio.SleepFunction;
+
+import dk.dtu.philipsclockradio.ContextClockradio;
+import dk.dtu.philipsclockradio.StateAdapter;
+import dk.dtu.philipsclockradio.SleepFunction.sleep_Singleton.SleepIdle;
+import dk.dtu.philipsclockradio.SleepFunction.sleep_Singleton.SleepSet;
 
 public class StateSleep extends StateAdapter {
     int[] sleepTime = {120, 90, 60, 30, 15,0};
@@ -11,7 +16,7 @@ public class StateSleep extends StateAdapter {
     SleepSet setSleep;
 
 
-    StateSleep() {
+    public StateSleep() {
 
 
 

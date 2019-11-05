@@ -1,25 +1,29 @@
-package dk.dtu.philipsclockradio;
+package dk.dtu.philipsclockradio.Radio_StatePattern;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
-public class StateFM extends StateRadio {
+import dk.dtu.philipsclockradio.ContextClockradio;
+import dk.dtu.philipsclockradio.StateStandby;
+
+public class StateAM extends StateRadio {
+
+
     private static ArrayList<String> stations = new ArrayList<>();
-    private static Double FMfrequency = new Double(87.5);
-    private String name = "FM";
+    private static int AMfrequency = 530;
+    private String name = "AM";
     StatePreset preset = new StatePreset(this);
     int presetCounter =0;
 
-/*
-TUNING RANGE:87.5-108
-*/
 
-    StateFM(){}
+    public StateAM() {
+    }
 
+    /*
+    TUNING RANGE:530-1700
+    */
     @Override
     public void onEnterState(ContextClockradio context) {
-        context.ui.setDisplayText(FMfrequency.toString());
+        context.ui.setDisplayText(Integer.toString(AMfrequency));
     }
 
     @Override
@@ -31,7 +35,6 @@ TUNING RANGE:87.5-108
     public void onClick_Hour(ContextClockradio context) {
         decrementFrequency(context);
     }
-
 
     @Override
     public void onLongClick_Min(ContextClockradio context) {
@@ -50,8 +53,7 @@ TUNING RANGE:87.5-108
     @Override
     public void onClick_Power(ContextClockradio context) {
         //Changes the Tuning range AM/FM
-
-        context.setState(new StateAM());
+        context.setState(new StateFM());
     }
 
     @Override
@@ -65,38 +67,37 @@ TUNING RANGE:87.5-108
     }
 
     @Override
-    public void onClick_Preset(ContextClockradio context) {
-        context.ui.turnOffTextBlink();
-
-        context.ui.setDisplayText(showPreset(presetCounter).toString());
-        presetCounter++;
+    public Double getFrequency(){
+        return Double.valueOf(Integer.toString(AMfrequency));
     }
 
     @Override
-    public Double getFrequency () {
-        return FMfrequency;
+    public void onClick_Preset(ContextClockradio context) {
+        context.ui.turnOffTextBlink();
+
+        context.ui.setDisplayText(showPreset(presetCounter));
+        presetCounter++;
     }
 
-    private Double showPreset(int i){
+    private String showPreset(int i){
         int size = preset.getFrequencyArray().size();
-        return preset.getFrequencyArray().get(i%size);
+        return preset.getFrequencyArray().get(i%size).toString();
     }
 
     public void decrementFrequency(ContextClockradio context){
-        FMfrequency-=0.1;
-        if(FMfrequency<87.5){
-            FMfrequency=108.0;
+        AMfrequency--;
+        if(AMfrequency<530){
+            AMfrequency=1700;
         }
-        context.ui.setDisplayText(FMfrequency.toString());
-
+        context.ui.setDisplayText(Integer.toString(AMfrequency));
     }
 
     public void incrementFrequency(ContextClockradio context){
-        FMfrequency+=0.1;
-        if(FMfrequency>=108.0){
-            FMfrequency=87.5;
+        AMfrequency++;
+        if(AMfrequency>1700){
+            AMfrequency=530;
         }
-        context.ui.setDisplayText(FMfrequency.toString());
+        context.ui.setDisplayText(Integer.toString(AMfrequency));
 
     }
 }
