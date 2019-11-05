@@ -1,23 +1,29 @@
 package dk.dtu.philipsclockradio;
 
 import android.os.AsyncTask;
-import android.util.StateSet;
 
 public class SleepIdle {
 
     private static SleepIdle idle = null;
     static int idletimer = 5;
-    static int sleepTimer;
-    private static AsyncTaskSleep asynSleep;
+    private static AsyncTaskIdle asynSleep;
     private static ContextClockradio mContext;
-
-
-    public static SleepIdle getInstance(int sleeptime,ContextClockradio con ){
+private static SleepSet sleepset;
+/*
+Returning singleton which represent a thread of the idletime.
+ */
+    public static SleepIdle getInstance(int sleeptime,ContextClockradio con, SleepSet set ){
         System.out.println("GET INSTANCE");
-        if(idle==null){
+        sleepset = set;
+
+        //Canceling the SleepSet thread
+        if(sleepset!=null) {
+            sleepset.getAsyncThread().cancel(true);
+        }
+        if(idle==null) {
             idle = new SleepIdle();
-            sleepTimer = sleeptime;
-            asynSleep = new AsyncTaskSleep();
+
+            asynSleep = new AsyncTaskIdle();
             mContext = con;
 
             asynSleep.execute();
@@ -25,19 +31,18 @@ public class SleepIdle {
 
             return idle;
         }
-        asynSleep = new AsyncTaskSleep();
-        idletimer = sleeptime;
+//If there is an existing thread it will be canceled. And a new one will be created.
+        asynSleep.cancel(true);
+        asynSleep = new AsyncTaskIdle();
+
+        asynSleep.execute();
+        idletimer = 5;
         return idle;
     }
 
 
+    static class AsyncTaskIdle extends AsyncTask<Void,Void,Void> {
 
-
-
-
-
-    static class AsyncTaskSleep extends AsyncTask<Void,Void,Void> {
-        SleepSet sleepSet;
         @Override
         protected Void doInBackground(Void... voids) {
             while (idletimer != 0) {
@@ -50,17 +55,23 @@ public class SleepIdle {
                     e.getMessage();
                 }
             }
+            mContext.setState(new StateStandby(mContext.getTime()));
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            sleepSet = SleepSet.getInstance(sleepTimer,mContext);
+            idletimer=5;
+            mContext.setState(new StateStandby(mContext.getTime()));
         }
 
 
 
+    }
+
+    public AsyncTaskIdle getAsyncThread(){
+        return asynSleep;
     }
 
 }

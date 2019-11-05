@@ -13,14 +13,22 @@ public class SleepSet {
     static ContextClockradio context;
     private static int timer;
     private static AsyncTask1 asynC;
+    private static SleepIdle idleState;
+
 
     private SleepSet(){}
 
 
 
 
-    public static SleepSet getInstance(int sleeptime,ContextClockradio con ){
+    public static SleepSet getInstance(int sleeptime,ContextClockradio con, SleepIdle idle ){
         System.out.println("GET INSTANCE");
+
+        //Canceling the SleepIdle thread
+        idleState = idle;
+        idle.getAsyncThread().cancel(true);
+
+//Checks if there is an existing singleton
         if(sleep==null){
             sleep = new SleepSet();
             timer = sleeptime;
@@ -32,7 +40,10 @@ public class SleepSet {
 
             return sleep;
         }
+        asynC.cancel(true);
         asynC = new AsyncTask1();
+        asynC.execute();
+        turnOnSleep(context);
         timer = sleeptime;
         return sleep;
     }
@@ -71,5 +82,10 @@ public class SleepSet {
     }
 
 
-
+    public AsyncTask1 getAsyncThread(){
+        if(asynC!=null){
+        return asynC;
+        }
+        return null;
+    }
 }

@@ -7,7 +7,8 @@ public class StateSleep extends StateAdapter {
     private static int counter = 0;
     private static int idelCounter = 0;
     ContextClockradio mContext;
-    SleepIdle sleepSet;
+    SleepIdle sleepIdle;
+    SleepSet setSleep;
 
 
     StateSleep() {
@@ -22,7 +23,8 @@ public class StateSleep extends StateAdapter {
     public void onEnterState(ContextClockradio context) {
         mContext=context;
         setSleepTime();
-        sleepSet = SleepIdle.getInstance(getSleepTime(),mContext);
+        sleepIdle = SleepIdle.getInstance(getSleepTime(),mContext, setSleep);
+        setSleep = SleepSet.getInstance(getSleepTime(),mContext, sleepIdle);
         updateDisplay(context);
         System.out.println("Updatet sleep");
 
@@ -45,7 +47,9 @@ public class StateSleep extends StateAdapter {
     public void onClick_Sleep(ContextClockradio context) {
         AddcheckCounter();
         setSleepTime();
-        sleepSet = SleepIdle.getInstance(getSleepTime(),mContext);
+        sleepIdle = SleepIdle.getInstance(getSleepTime(),mContext, setSleep);
+        setSleep = SleepSet.getInstance(getSleepTime(),mContext, sleepIdle);
+
         updateDisplay(context);
 
 
@@ -65,6 +69,7 @@ public class StateSleep extends StateAdapter {
         if (counter == sleepTime.length) {
             counter = 0;
         }
+
     }
 
     private void updateDisplay(ContextClockradio context){
