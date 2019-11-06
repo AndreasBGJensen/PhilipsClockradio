@@ -1,11 +1,16 @@
 package dk.dtu.philipsclockradio.Radio_StatePattern;
 
+import java.util.List;
+
 import dk.dtu.philipsclockradio.ContextClockradio;
+import dk.dtu.philipsclockradio.R;
+import dk.dtu.philipsclockradio.State;
 import dk.dtu.philipsclockradio.StateAdapter;
 
-public class StateRadio extends StateAdapter {
-    static StateAM AM = new StateAM();
-    static StateFM FM = new StateFM();
+public class StateRadio implements State {
+    static StateRadio AM = new StateAM();
+    static StateRadio FM = new StateFM();
+
 
     PresetRadioStations radioStations = new PresetRadioStations();
 
@@ -19,8 +24,97 @@ public class StateRadio extends StateAdapter {
 
     }
 
+    @Override
+    public void onExitState(ContextClockradio context) {
 
-    public Double getFrequency(){return null;}
+    }
+
+    @Override
+    public void onClick_Hour(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onClick_Min(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onClick_Preset(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onClick_Power(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onClick_Sleep(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onClick_AL1(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onClick_AL2(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onClick_Snooze(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_Hour(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_Min(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_Preset(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_Power(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_Sleep(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_AL1(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_AL2(ContextClockradio context) {
+
+    }
+
+    @Override
+    public void onLongClick_Snooze(ContextClockradio context) {
+
+    }
+
+
+    public List getFrequency(){return null;}
+
+
+    public List getPresets(){ return null; }
+
 
 
 

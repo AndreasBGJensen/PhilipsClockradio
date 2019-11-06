@@ -1,16 +1,19 @@
 package dk.dtu.philipsclockradio.Radio_StatePattern;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import dk.dtu.philipsclockradio.ContextClockradio;
 import dk.dtu.philipsclockradio.StateStandby;
 
 public class StateFM extends StateRadio {
-    private static ArrayList<String> stations = new ArrayList<>();
-    private static Double FMfrequency = new Double(87.5);
+    private static ArrayList presets  = new ArrayList<Double>();
+    private static double FMfrequency =87.5;
     private String name = "FM";
     StatePreset preset = new StatePreset(this);
-    int presetCounter =0;
+    int presetCounter = 0;
+
 
 /*
 TUNING RANGE:87.5-108
@@ -20,17 +23,20 @@ TUNING RANGE:87.5-108
 
     @Override
     public void onEnterState(ContextClockradio context) {
-        context.ui.setDisplayText(FMfrequency.toString());
+        context.ui.setDisplayText(Double.toString(FMfrequency));
+
     }
 
     @Override
     public void onClick_Min(ContextClockradio context) {
         incrementFrequency(context);
+        chectRadioPlay(context);
     }
 
     @Override
     public void onClick_Hour(ContextClockradio context) {
         decrementFrequency(context);
+        chectRadioPlay(context);
     }
 
 
@@ -65,30 +71,38 @@ TUNING RANGE:87.5-108
         context.setState(this.preset);
     }
 
+
     @Override
     public void onClick_Preset(ContextClockradio context) {
-        context.ui.turnOffTextBlink();
 
-        context.ui.setDisplayText(showPreset(presetCounter).toString());
-        presetCounter++;
+        if(presetCounter < getPresets().size()){
+            context.ui.setDisplayText(showPreset(presetCounter));
+            presetCounter++;
+            chectRadioPlay(context);
+        }else{
+            context.ui.setDisplayText(showPreset(0));
+            presetCounter=0;
+            chectRadioPlay(context);
+        }
+
+
     }
 
     @Override
-    public Double getFrequency () {
-        return FMfrequency;
+    public ArrayList getFrequency () {
+
+        ArrayList newlist = new ArrayList();
+        newlist.add(FMfrequency);
+        return newlist;
     }
 
-    private Double showPreset(int i){
-        int size = preset.getFrequencyArray().size();
-        return preset.getFrequencyArray().get(i%size);
-    }
 
     public void decrementFrequency(ContextClockradio context){
         FMfrequency-=0.1;
         if(FMfrequency<87.5){
             FMfrequency=108.0;
         }
-        context.ui.setDisplayText(FMfrequency.toString());
+        context.ui.setDisplayText(Double.toString(FMfrequency));
 
     }
 
@@ -97,7 +111,26 @@ TUNING RANGE:87.5-108
         if(FMfrequency>=108.0){
             FMfrequency=87.5;
         }
-        context.ui.setDisplayText(FMfrequency.toString());
+        context.ui.setDisplayText(Double.toString(FMfrequency));
 
+    }
+
+
+    private String showPreset(int i){
+        int size = getPresets().size();
+        FMfrequency =(Double) getPresets().get(i%size);
+        return getPresets().get(i%size).toString();
+    }
+
+    public List getPresets(){return presets;
+    }
+
+    private void chectRadioPlay(ContextClockradio context){
+        for(int i = 0; i<getPresets().size();i++){
+            if(FMfrequency==((Double)getPresets().get(i))){
+                context.ui.toggleRadioPlaying();
+
+            }
+        }
     }
 }

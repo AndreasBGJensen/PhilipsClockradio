@@ -1,6 +1,7 @@
 package dk.dtu.philipsclockradio.Radio_StatePattern;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dk.dtu.philipsclockradio.ContextClockradio;
 import dk.dtu.philipsclockradio.StateStandby;
@@ -8,8 +9,8 @@ import dk.dtu.philipsclockradio.StateStandby;
 public class StateAM extends StateRadio {
 
 
-    private static ArrayList<String> stations = new ArrayList<>();
-    private static int AMfrequency = 530;
+    private static ArrayList<Integer> presets = new ArrayList<Integer>();
+    private static Integer AMfrequency = 530;
     private String name = "AM";
     StatePreset preset = new StatePreset(this);
     int presetCounter =0;
@@ -29,11 +30,12 @@ public class StateAM extends StateRadio {
     @Override
     public void onClick_Min(ContextClockradio context) {
         incrementFrequency(context);
-    }
+        chectRadioPlay(context);    }
 
     @Override
     public void onClick_Hour(ContextClockradio context) {
         decrementFrequency(context);
+        chectRadioPlay(context);
     }
 
     @Override
@@ -67,21 +69,27 @@ public class StateAM extends StateRadio {
     }
 
     @Override
-    public Double getFrequency(){
-        return Double.valueOf(Integer.toString(AMfrequency));
-    }
-
-    @Override
     public void onClick_Preset(ContextClockradio context) {
-        context.ui.turnOffTextBlink();
 
-        context.ui.setDisplayText(showPreset(presetCounter));
-        presetCounter++;
+        if(presetCounter < getPresets().size()){
+            context.ui.setDisplayText(showPreset(presetCounter));
+            presetCounter++;
+            chectRadioPlay(context);
+        }else{
+            context.ui.setDisplayText(showPreset(0));
+            presetCounter=1;
+            chectRadioPlay(context);
+        }
+
+
     }
+
+
 
     private String showPreset(int i){
-        int size = preset.getFrequencyArray().size();
-        return preset.getFrequencyArray().get(i%size).toString();
+        int size = getPresets().size();
+        AMfrequency = (Integer)getPresets().get(i%size);
+        return getPresets().get(i%size).toString();
     }
 
     public void decrementFrequency(ContextClockradio context){
@@ -99,5 +107,26 @@ public class StateAM extends StateRadio {
         }
         context.ui.setDisplayText(Integer.toString(AMfrequency));
 
+    }
+
+    public List getPresets(){return presets;}
+
+
+    @Override
+    public ArrayList getFrequency () {
+
+        ArrayList newlist = new ArrayList();
+        newlist.add(AMfrequency);
+        return newlist;
+    }
+
+
+    private void chectRadioPlay(ContextClockradio context){
+        for(int i = 0; i<getPresets().size();i++){
+             if(((Integer)getPresets().get(i))==AMfrequency){
+                context.ui.toggleRadioPlaying();
+
+            }
+        }
     }
 }
