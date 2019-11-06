@@ -8,8 +8,7 @@ import dk.dtu.philipsclockradio.StateAdapter;
 
 public class StatePreset extends StateAdapter {
     static List Frequency;
-    static Double FMfrequency;
-    static int AMFrequency;
+
     static String tag;
     int counter = 0;
 
@@ -19,9 +18,9 @@ public class StatePreset extends StateAdapter {
 
     StateRadio freq;
 
-    StatePreset(StateRadio FM) {
+    StatePreset(StateRadio radio) {
 
-        freq = FM;
+        freq = radio;
 
 
 
@@ -32,11 +31,7 @@ public class StatePreset extends StateAdapter {
     public void onEnterState(ContextClockradio context) {
         context.ui.setDisplayText(freq.getFrequency().get(0).toString());
         context.ui.turnOnTextBlink();
-        if(freq instanceof StateFM) {
-            FMfrequency = (Double)freq.getFrequency().get(0);
-        }else if (freq instanceof StateAM){
-            AMFrequency = (Integer) freq.getFrequency().get(0);
-        }
+
 
     }
 
