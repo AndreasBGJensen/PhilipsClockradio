@@ -15,10 +15,12 @@ private static SleepSet sleepset;
 /*
 Returning singleton which represent a thread of the idletime.
  */
-    public static SleepIdle getInstance(int sleeptime,ContextClockradio con, SleepSet set ){
+    public static SleepIdle getInstance(ContextClockradio con, SleepSet set ){
         System.out.println("GET INSTANCE");
         sleepset = set;
-
+        if(asynSleep!=null) {
+            asynSleep.cancel(true);
+        }
         //Canceling the SleepSet thread
         if(sleepset!=null) {
             sleepset.getAsyncThread().cancel(true);

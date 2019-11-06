@@ -21,10 +21,6 @@ public class StatePreset extends StateAdapter {
     StatePreset(StateRadio radio) {
 
         freq = radio;
-
-
-
-
     }
 
     @Override

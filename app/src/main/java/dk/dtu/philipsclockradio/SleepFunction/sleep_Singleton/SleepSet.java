@@ -28,7 +28,7 @@ public class SleepSet {
 
         //Canceling the SleepIdle thread
         idleState = idle;
-        idle.getAsyncThread().cancel(true);
+
 
 //Checks if there is an existing singleton
         if(sleep==null){
@@ -52,11 +52,11 @@ public class SleepSet {
 
 
     private static void turnOnSleep(ContextClockradio context){
-        if(timer!=0) {
-
-            context.ui.turnOnLED(3);
-        }else{
+        if(timer==0) {
             context.ui.turnOffLED(3);
+
+        }else{
+            context.ui.turnOnLED(3);
         }
 
     }
@@ -64,6 +64,7 @@ public class SleepSet {
     static class AsyncTask1 extends AsyncTask<Void,Void,Void> {
         @Override
         protected Void doInBackground(Void... voids) {
+
             while (timer != 0) {
                 timer--;
                 System.out.println(timer);
