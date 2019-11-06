@@ -3,6 +3,7 @@ package dk.dtu.philipsclockradio;
 import android.os.Handler;
 import java.util.Date;
 
+import dk.dtu.philipsclockradio.Alarm.StateAlarmSettingMode;
 import dk.dtu.philipsclockradio.Radio_StatePattern.StateRadio;
 import dk.dtu.philipsclockradio.SleepFunction.StateSleep;
 
@@ -63,6 +64,15 @@ public class StateStandby extends StateAdapter {
         context.setState(new StateRadio());
     }
 
+    @Override
+    public void onLongClick_AL1(ContextClockradio context) {
+        context.setState(new StateAlarmSettingMode(context.getTime()));
+    }
+
+    @Override
+    public void onLongClick_AL2(ContextClockradio context) {
+        context.setState(new StateAlarmSettingMode(context.getTime()));
+    }
 
     @Override
     public void onClick_Sleep(ContextClockradio context) {
