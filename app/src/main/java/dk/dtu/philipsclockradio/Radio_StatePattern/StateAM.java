@@ -39,6 +39,12 @@ public class StateAM extends StateRadio {
     }
 
     @Override
+    public void onLongClick_Sleep(ContextClockradio context) {
+            getPresets().add(1000);
+           getPresets().add(1200);
+    }
+
+    @Override
     public void onLongClick_Min(ContextClockradio context) {
         for(int i = 0; i<50;i++){
             incrementFrequency(context);

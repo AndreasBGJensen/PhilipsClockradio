@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.dtu.philipsclockradio.ContextClockradio;
+import dk.dtu.philipsclockradio.StateAdapter;
 
-public class StatePreset extends StateRadio {
+public class StatePreset extends StateAdapter {
     static List Frequency;
     static Double FMfrequency;
     static int AMFrequency;
@@ -15,7 +16,6 @@ public class StatePreset extends StateRadio {
 //Not implementet yet. Holds predefined radio channels.
     static PresetRadioStations presetStations = new PresetRadioStations();
 
-    ArrayList<java.lang.Object> prefered;
 
     StateRadio freq;
 
@@ -23,15 +23,9 @@ public class StatePreset extends StateRadio {
 
         freq = FM;
 
-        if(freq instanceof StateFM) {
-           ((StateFM) freq).getPresets().add(102.2);
-            ((StateFM) freq).getPresets().add(88.8);
 
-            }else if (freq instanceof StateAM){
-            ((StateAM) freq).getPresets().add(1000);
-            ((StateAM) freq).getPresets().add(1200);
 
-        }
+
     }
 
     @Override

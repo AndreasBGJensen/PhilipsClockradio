@@ -89,6 +89,12 @@ TUNING RANGE:87.5-108
     }
 
     @Override
+    public void onLongClick_Sleep(ContextClockradio context) {
+        getPresets().add(102.2);
+        getPresets().add(88.8);
+    }
+
+    @Override
     public ArrayList getFrequency () {
 
         ArrayList newlist = new ArrayList();
