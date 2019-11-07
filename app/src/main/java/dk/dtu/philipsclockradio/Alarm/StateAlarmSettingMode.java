@@ -19,9 +19,9 @@ public class StateAlarmSettingMode extends StateAdapter {
 
 
     public StateAlarmSettingMode(Date date) {
-        alarmTime = date;
+
         currentTime=date;
-        time = alarmTime.getTime();
+
         currenttime = currentTime.getTime();
 
 
@@ -31,6 +31,8 @@ public class StateAlarmSettingMode extends StateAdapter {
     @Override
     public void onEnterState(ContextClockradio context) {
         context.ui.turnOnTextBlink();
+        alarmTime.setTime(currenttime);
+        System.out.println(alarmTime.getTime());
     }
 
 
@@ -55,16 +57,17 @@ public class StateAlarmSettingMode extends StateAdapter {
     @Override
     public void onClick_AL1(ContextClockradio context) {
         setAlarm = new Alarm(context);
-        long setTime = time-currenttime;
+        long setTime = alarmTime.getTime()-currenttime;
         setAlarm.execute(setTime);
+        System.out.println(setTime);
         context.setState(new StateStandby(currentTime));
     }
 
     @Override
     public void onClick_AL2(ContextClockradio context) {
         setAlarm = new Alarm(context);
-        long setTime = time-currenttime;
-
+        long setTime = alarmTime.getTime()-currenttime;
+        System.out.println(setTime);
 
 
         setAlarm.execute(setTime);
@@ -77,7 +80,8 @@ public class StateAlarmSettingMode extends StateAdapter {
     }
 
     private void setAlarmTime(long time){
-        alarmTime.setTime(time);
+        long newTime =alarmTime.getTime()+time;
+        alarmTime.setTime(newTime);
     }
 
 
